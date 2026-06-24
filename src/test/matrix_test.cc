@@ -65,7 +65,7 @@ int main()
     assert(5 == A.at(1, 1));
 
     Matrix<double, 2, 3> C{3, 7, 4, 5, 6, 10};
-    
+
     assert(C.shape() == std::make_pair(size_t{2}, size_t{3}));
     assert(3 == C.at(0, 0));
     assert(7 == C.at(0, 1));
@@ -86,5 +86,4 @@ int main()
     assert(10 == C.at(2, 1));
 
     return 0;
-
 }

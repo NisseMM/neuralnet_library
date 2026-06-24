@@ -1,9 +1,19 @@
-#include <format>
-#include <iostream>
+/*
+
+    Test file for testing a basic neural network using the Network class
+
+    Tests that a simple network can converge to XOR within a 0.01 margin in 10.000 iterations
+
+*/
+
+#include <cassert>
+#include <cmath>
 
 #include "functions.h"
 #include "network.tcc"
 #include "tensor.h"
+
+double const DELTA_LIMIT{0.01};
 
 namespace RANDOM
 {
@@ -24,11 +34,9 @@ int main()
         {0, 1},
         {1, 1}};
 
-    Tensor<double> Y = Tensor<double>{1, 0, 0, 1}.transpose();
+    Tensor<double> Y = Tensor<double>{0, 1, 1, 0}.transpose();
 
-    size_t MAXITERS{1000 * 1000};
-
-    
+    size_t MAXITERS{10*1000};
 
     Network net(10,
                 LAYER::Linnear(2, 4),
@@ -38,7 +46,10 @@ int main()
 
     net.train(MAXITERS, X, Y);
 
-    std::cout << std::format("Result\n{}", net.predict(X)) << std::endl;
+    auto pred = net.predict(X);
+
+    for (size_t i{}; i < Y.shape().second; ++i)
+        assert(std::abs(pred.at(0, i) - Y.at(0, i)) < DELTA_LIMIT);
 
     return 0;
 }
