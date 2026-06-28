@@ -77,6 +77,19 @@ namespace NN
         Tensor<T> Y;
     };
 
+    template <typename T=double>
+    class Softmax : public Layer<T>
+    {
+    public:
+        Softmax();
+    
+        Tensor<T> forward(Tensor<T> const &input) override;
+        Tensor<T> backward(Tensor<T> const &gradient) override;
+    
+    private:
+        Tensor<T> Y;
+    };
+
     template<typename T>
     Tensor<T> dMSE(Tensor<T> const& real, Tensor<T> const& pred)
     {
@@ -144,6 +157,12 @@ namespace LAYER
     std::unique_ptr<NN::Layer<T>> Tanh()
     {
         return std::make_unique<NN::Tanh<T>>();
+    }
+
+    template<typename T=double>
+    std::unique_ptr<NN::Layer<T>> Softmax()
+    {
+        return std::make_unique<NN::Softmax<T>>();
     }
 }
 

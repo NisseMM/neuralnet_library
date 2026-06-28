@@ -13,10 +13,12 @@ class Tensor
 {
 public:
     using storage_type = std::vector<T>;
+
     Tensor(size_t, size_t = 1, T const & = T{});
     Tensor(std::initializer_list<T>);
     Tensor(std::initializer_list<std::initializer_list<T>>);
     Tensor(size_t, size_t, T (*)());
+    Tensor(size_t, size_t, std::vector<T> &);
 
     T &at(size_t, size_t) noexcept;
     T const &at(size_t, size_t) const noexcept;

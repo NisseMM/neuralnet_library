@@ -44,6 +44,13 @@ Tensor<T>::Tensor(size_t rows, size_t cols, T (*func)())
 }
 
 template <typename T>
+Tensor<T>::Tensor(size_t rows, size_t cols, std::vector<T> & init)
+    : rows{rows}, cols{cols}, row_stride{cols}, col_stride{1}, data{}
+{
+    std::swap(data, init);
+}
+
+template <typename T>
 T &Tensor<T>::at(size_t row, size_t col) noexcept
 {
     return const_cast<T &>(static_cast<Tensor const *>(this)->at(row, col));
@@ -232,7 +239,7 @@ auto Tensor<T>::element_mul(Tensor<B> const &other) const
 {
     using R = std::common_type_t<T, B>;
     Tensor<R> res(rows, cols);
-    std::transform(begin(data), end(data), begin(other.data), begin(*res.data), [](auto a, auto b)
+    std::transform(begin(data), end(data), begin(other.data), begin(res.data), [](auto a, auto b)
                    { return a * b; });
     return res;
 }

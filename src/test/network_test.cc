@@ -24,7 +24,7 @@ namespace RANDOM
         double UPPER = 0.7;
         double LOWER = -0.7;
     }
-}
+}   
 
 int main()
 {
@@ -34,7 +34,8 @@ int main()
         {0, 1},
         {1, 1}};
 
-    Tensor<double> Y = Tensor<double>{0, 1, 1, 0}.transpose();
+    std::vector<double> vals{0, 1, 1, 0};
+    Tensor<double> Y = Tensor<double>(4, 1, vals);
 
     size_t MAXITERS{10*1000};
 

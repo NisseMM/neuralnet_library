@@ -63,7 +63,7 @@ public:
         {
             // std::cout << std::format("\n\nIteration i={}\n", i);
             auto pred{forward(X)};
-            auto grad{NN::dBCE(Y, pred)};
+            auto grad{pred - Y};
             // if (i % 100 == 0)
             // {
             //     std::cout << std::format("Iter\n{}", i) << std::endl;

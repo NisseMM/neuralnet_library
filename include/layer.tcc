@@ -11,7 +11,6 @@ namespace NN
     {
     }
     
-    
     template<typename T>
     Tensor<T> Linnear<T>::forward(Tensor<T> const& input)
     {
@@ -105,4 +104,45 @@ namespace NN
         return grad % (1.0 - (Y % Y));
     }
 
+    template <typename T>
+    Softmax<T>::Softmax()
+        : Y{Tensor<T>(0, 0)}
+    {
+    }
+    
+    
+    template<typename T>
+    Tensor<T> Softmax<T>::forward(Tensor<T> const& input)
+    {
+        Y = input;
+
+        T max{Y.at(0,0)};
+        for (size_t i{}; i < Y.shape().second; ++i)
+        {
+            T & curr{Y.at(0,i)};
+            if (curr > max)
+                max = curr;
+        }
+
+
+        T sum{};
+        for (size_t i{}; i < Y.shape().second; ++i)
+        {
+            Y.at(0, i) = std::exp(Y.at(0, i) - max);
+            sum += Y.at(0, i);
+        }
+
+        for (size_t i{}; i < Y.shape().second; ++i)
+        {
+            Y.at(0, i) /= sum;
+        }
+
+        return Y;
+    }
+
+    template<typename T>
+    Tensor<T> Softmax<T>::backward(Tensor<T> const& grad)
+    {
+        return grad;
+    }
 }
